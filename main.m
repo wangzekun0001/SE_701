@@ -3,13 +3,13 @@ close all
 
 T = 1000;  %Time
 dt = 0.01;
-n = 100001; %这是啥
+n = 100001; %这是啥 0-1000/0.001不是这么多份嘛
 %t = linespace(0,T,n)
 
 L = 15; %整体长度
 omega = 0:L; %等分
 
-target = [5,10,15];  %这是啥
+target = [5,10,15];  %这是啥 我一开始理解错了，我以为那么长只有三个点有增速。。。
 
 s_num = 1;
 s_init = linspace(0,L,s_num);
@@ -21,7 +21,7 @@ R0(target+1) = 1;
 
 
 A0=zeros(1,L+1); %complexity increasing rate
-A0(target+1) = 1; %这是啥
+A0(target+1) = 1; %这是啥 同上，理解错了
 
 J0 = 0;
 %{
