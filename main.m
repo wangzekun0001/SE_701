@@ -3,13 +3,13 @@ close all
 
 T = 1000;  %Time
 dt = 0.01;
-n = 100001; %这是啥 0-1000/0.001不是这么多份嘛
+n = 100001; %这是啥
 %t = linespace(0,T,n)
 
 L = 15; %整体长度
 omega = 0:L; %等分
 
-target = [5,10,15];  %这是啥 我一开始理解错了，我以为那么长只有三个点有增速。。。
+target = [5,10,15];  %这是啥
 
 s_num = 1;
 s_init = linspace(0,L,s_num);
@@ -19,9 +19,9 @@ J1 = 0;
 R0=zeros(1,L+1); %measure of uncertainty at each sampling point
 R0(target+1) = 1;
 
-
-A0=zeros(1,L+1); %complexity increasing rate
-A0(target+1) = 1; %这是啥 同上，理解错了
+%A0=zeros(1,L+1); %complexity increasing rate
+%A0(target+1) = 1; %这是啥
+B = 0.1
 
 J0 = 0;
 %{
@@ -30,6 +30,30 @@ J0 = 0;
     R  = max(R - B.*P*dt,0);
     J = J + sum(R)*dt;  % cost
 %}
+
+gra = bar(R0);
+axis([0 15 0 5]);
+hold on;
+increaseingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3]; %should be A-BP, this one for testing
+
+for i = 1:10
+    for j = 1:10
+        R0(j) = R0(j) + increaseingArr(j);
+    end
+    pause(1)
+    gra = bar(R0);
+    hold on;
+end
+    
+
+
+
+
+
+
+
+
+
 
 
 %Algorithm 1: IPA-based optimization algorithm to find theta star and omega
