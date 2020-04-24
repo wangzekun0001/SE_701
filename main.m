@@ -25,6 +25,8 @@ xi = 1;
 theta = defineTheta(D, 2, sigma, xi)
 gamma = defineGamma(sigma, D, 20, 2, s)
 
+omega = zeros(1, N);
+
 
 function f = defineD(a, b, N)
     A = zeros(1, N);
