@@ -1,15 +1,16 @@
 clear;clc;
 close all
+N = 2; %assume there are two agents right now
 
 T = 10;  %Time
 dt = 0.01;
-n = 100001; %这是啥
+n = 100001; 
 %t = linespace(0,T,n)
 
 L = 15; %整体长度
 omega = 0:L; %等分
 
-target = [5,10,15];  %这是啥
+target = [5,10,15];  
 
 s_num = 1;
 s_init = linspace(0,L,s_num);
@@ -21,7 +22,6 @@ R0(target+1) = 1;
 
 %A0=zeros(1,L+1); %complexity increasing rate
 %A0(target+1) = 1; %这是啥
-B = 0.1
 
 J0 = 0;
 %{
@@ -30,35 +30,36 @@ J0 = 0;
     R  = max(R - B.*P*dt,0);
     J = J + sum(R)*dt;  % cost
 %}
+
+%s = zeros(1,N); %initial position
+s = [8,2]
+%s depends on u(velocity), which is 1 or -1
+
 axis([0 L+2 0 5]);
 gra = bar(R0);
 axis([0 L+2 0 5]);
-hold on;
-increaseingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3]; %should be A-BP, this one for testing
+%hold on;
 
+
+%increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%should be A-BP, this one for testing
 for i = 1:T
-    for j = 1:L
-        R0(j) = R0(j) + increaseingArr(j);
+    for j = 1:N
+        l = rand;
+        if l > 0.5 && s(j) < L
+            s(j) = s(j) + 1;
+        elseif l < 0.5 && s(j) > 0
+            s(j) = s(j) - 1;
+        end
+            pause(0.1);
+            R0 = performGraphing(L,R0,s(j)+1)
     end
-    pause(1);
-    gra = bar(R0);
-    hold on;
 end
-    
-
-
-
-
-
-
-
-
 
 
 
 %Algorithm 1: IPA-based optimization algorithm to find theta star and omega
 %star
-s = [1,2,3,4,5,6,7,8,9,10] %temporary s for testing
+s = [1,2,3,4,5,6,7,8,9,10]; %temporary s for testing
 a = 1;
 b = 2;
 N = 10;
@@ -66,8 +67,8 @@ D = defineD(a, b, N);
 sigma = 1;
 epsilon = 1;
 xi = 1;
-theta = defineTheta(D, 2, sigma, xi)
-gamma = defineGamma(sigma, D, 20, 2, s)
+theta = defineTheta(D, 2, sigma, xi);
+gamma = defineGamma(sigma, D, 20, 2, s);
 omega = zeros(1, N);
 
 
@@ -91,4 +92,21 @@ end
 
 function f = defineGamma(sigma, D, T, n, s)
     f = ceil(1/(2 * sigma) * (T - defineTheta(D, n, sigma, 1) + s(n)));
+end
+
+function f = performGraphing(L,R0,sn)
+    axis([0 L+2 0 5]);
+    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];
+    for j = 1:L
+        if j ~= sn
+            R0(j)
+            R0(j) = R0(j) + increasingArr(j);
+        else
+            R0(j) = 0;
+        end
+    end
+    gra = bar(R0);
+    axis([0 L+2 0 5]);
+    %hold on;
+    f = R0
 end
