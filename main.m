@@ -41,7 +41,7 @@ axis([0 L+2 0 5]);
 %hold on;
 
 
-%increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%should be A-BP, this one for testing
+%u等于正负1，判断依据是lambda，lambda还没写，所以用了rand来代替判定依据
 for i = 1:T
     for j = 1:N
         l = rand;
@@ -96,7 +96,7 @@ end
 
 function f = performGraphing(L,R0,sn)
     axis([0 L+2 0 5]);
-    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];
+    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%应该是公式6 暂时替代
     for j = 1:L
         if j ~= sn
             R0(j)
