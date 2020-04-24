@@ -8,7 +8,14 @@ n = 100001;
 
 aimlength = 15;
 omga = 0:aimlength;
-tar = [5];
+target = [5,10,15];
+
+s_num = 1;
+s_init = linspace(0,aimlength,s_num);
+u_init = zeros(1,s_num);
+J1 = 0; 
+R0=zeros(1,L+1);
+R0(tar+1) = 1;
 
 %Algorithm 1: IPA-based optimization algorithm to find theta star and omega
 %star
