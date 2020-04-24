@@ -12,17 +12,18 @@ tar = [5];
 
 %Algorithm 1: IPA-based optimization algorithm to find theta star and omega
 %star
-
+s = [1,2,3,4,5,6,7,8,9,10] %temporary s for testing
 a = 1;
 b = 2;
 N = 10;
-D = defineD(a, b, N)
+D = defineD(a, b, N);
 
 sigma = 1;
 epsilon = 1;
 xi = 1;
 
 theta = defineTheta(D, 2, sigma, xi)
+gamma = defineGamma(sigma, D, 20, 2, s)
 
 
 function f = defineD(a, b, N)
@@ -39,4 +40,8 @@ function f = defineTheta(D, n, sigma, xi)
     else
         f = D(n) + sigma;
     end
+end
+
+function f = defineGamma(sigma, D, T, n, s)
+    f = ceil(1/(2 * sigma) * (T - defineTheta(D, n, sigma, 1) + s(n)));
 end
