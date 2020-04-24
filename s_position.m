@@ -1,4 +1,8 @@
-function P =  s_position(omega,s,r) %µÈ·ÖÎ»ÖÃ,sÎ»ÖÃ£¬×ÜÎ»ÖÃĞÅÏ¢
-p = zeors(length(omega)); %³õÊ¼»¯ £¨£©
-p = max(1-abs(omega-s)/r,0); %Ä¿±êÃ¿¸öÎ»ÖÃµÄ
-P = 1 - prod(1-p,1);%ÏÂÒ»ÃëÎ»ÖÃ
+function P =  s_position(X,s,r) %x,snï¼Œrn, æ¥è‡ªequation(4)
+p = zeors(length(s),length(X)); 
+
+for j = 1:length(s)
+    p(j,:) = max(1-abs(X-s(j))/r,0); %ç›®æ ‡æ¯ä¸ªä½ç½®çš„
+end
+
+P = 1 - prod(1-p,1);
