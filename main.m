@@ -1,6 +1,6 @@
 clear;clc;
 close all
-N = 2; %assume there are two agents right now
+N = 3; %assume there are three agents right now
 
 T = 10;  %Time
 dt = 0.01;
@@ -32,7 +32,7 @@ J0 = 0;
 %}
 
 %s = zeros(1,N); %initial position
-s = [8,2]
+s = [8,2,5]
 %s depends on u(velocity), which is 1 or -1
 
 axis([0 L+2 0 5]);
