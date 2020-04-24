@@ -32,7 +32,7 @@ J0 = 0;
 %}
 
 %s = zeros(1,N); %initial position
-s = [8,2,5]
+s = [8,12,5];
 %s depends on u(velocity), which is 1 or -1
 
 axis([0 L+2 0 5]);
@@ -51,7 +51,7 @@ for i = 1:T
             s(j) = s(j) - 1;
         end
             pause(0.1);
-            R0 = performGraphing(L,R0,s(j)+1)
+            R0 = performGraphing(L,R0,s(j)+1);
     end
 end
 
@@ -99,14 +99,13 @@ function f = performGraphing(L,R0,sn)
     increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%应该是公式6 暂时替代
     for j = 1:L
         if j ~= sn
-            R0(j)
             R0(j) = R0(j) + increasingArr(j);
         else
             R0(j) = 0;
         end
     end
     gra = bar(R0);
-    axis([0 L+2 0 5]);
+    axis([0 L+2 0 10]);
     %hold on;
-    f = R0
+    f = R0;
 end
