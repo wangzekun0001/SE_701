@@ -6,16 +6,26 @@ dt = 0.01;
 n = 100001;
 %t = linespace(0,T,n)
 
-aimlength = 15;
-omga = 0:aimlength;
+L = 15; %整体长度
+omega = 0:L; %等分
+
 target = [5,10,15];
 
 s_num = 1;
-s_init = linspace(0,aimlength,s_num);
+s_init = linspace(0,L,s_num);
 u_init = zeros(1,s_num);
 J1 = 0; 
 R0=zeros(1,L+1);
-R0(tar+1) = 1;
+R0(target+1) = 1;
+A0=zeros(1,L+1);
+A0(target+1) = 1;
+J0 = 0;
+%{
+    P = s_position(omega,s,rs);
+    R = R + A0.*dt;
+    R  = max(R - B.*P*dt,0);
+    J = J + sum(R)*dt;  % cost
+}%
 
 %Algorithm 1: IPA-based optimization algorithm to find theta star and omega
 %star
