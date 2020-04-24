@@ -1,7 +1,7 @@
 clear;clc;
 close all
 
-T = 1000;  %Time
+T = 10;  %Time
 dt = 0.01;
 n = 100001; %这是啥
 %t = linespace(0,T,n)
@@ -30,17 +30,17 @@ J0 = 0;
     R  = max(R - B.*P*dt,0);
     J = J + sum(R)*dt;  % cost
 %}
-
+axis([0 L+2 0 5]);
 gra = bar(R0);
-axis([0 15 0 5]);
+axis([0 L+2 0 5]);
 hold on;
-increaseingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3]; %should be A-BP, this one for testing
+increaseingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3]; %should be A-BP, this one for testing
 
-for i = 1:10
-    for j = 1:10
+for i = 1:T
+    for j = 1:L
         R0(j) = R0(j) + increaseingArr(j);
     end
-    pause(1)
+    pause(1);
     gra = bar(R0);
     hold on;
 end
