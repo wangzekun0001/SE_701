@@ -1,6 +1,6 @@
 clear;clc;
 close all
-N = 2; %assume there are five agents right now
+N = 1; %assume there are five agents right now
 
 T = 10;  %Time
 dt = 0.01;
@@ -23,10 +23,10 @@ R0(target) = 1;%一开始想设计的中间有距离
 R = R0;
 A0=zeros(1,L+1); %complexity increasing rate
 A0(target) = 10; 
-rs= 3;
+rs= 4;
 J1 = 0; % J of R
 J2 = 0; % J of travel 这个还没用
-B= 50;
+B= 100;
 J0 = 0;
 
 boundary = [max(min(target)-rs,0),min(max(target)+rs,L)]; %0与L为防止过小过大,但还没用上
@@ -35,7 +35,7 @@ boundary = [max(min(target)-rs,0),min(max(target)+rs,L)]; %0与L为防止过小过大,但
 
 %s = zeros(1,N); %initial position
 %s initialization 瞎写的
-s = [8,16];
+s = [8];
 %s depends on u(velocity), which is 1 or -1
 
 axis([0 L+2 0 5]);
@@ -45,14 +45,19 @@ axis([0 L+2 0 5]);
 
 
 %u等于正负1，判断依据是lambda，lambda还没写，所以用了rand来代替判定依据
-
+lambdasn = zeros(1,length(s));
+lambdai = zeros(1,length(target));
 for i = t
     P = s_position(omega,s,rs);
     R = R + A0.*dt; 
     R  = max(R - B.*P*dt,0);
     J1 = J1 + sum(R)*dt;
     visualization(f,s,rs,R,J1,L,i+dt)
-    
+    [lambdasn, lambdai] = GetLambda(target,s,B,rs,lambdasn,lambdai,dt);
+    for j = 1:N
+        s(j) = s(j) - lambdasn(j)/abs(lambdasn(j));
+    end
+%{    
     for j = 1:N
         l = rand;
         if l > 0.5 && s(j) < L
@@ -65,7 +70,7 @@ for i = t
     end
     sumR = sum(R0);
     J0 = J0 + sumR;
-
+%}
 end
 
 J0 = J0 / T   %equation(7)
