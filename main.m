@@ -16,6 +16,7 @@ s_num = 1;
 s_init = linspace(0,L,s_num);
 u_init = zeros(1,s_num);
 J1 = 0; 
+f = figure(1);
 
 R0=zeros(1,L+1); %measure of uncertainty at each sampling point
 R0(target+1) = 1;
