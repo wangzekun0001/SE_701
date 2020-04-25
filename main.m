@@ -58,7 +58,7 @@ for i = 1:T
             s(j) = s(j) - 1;
         end
             pause(0.1);
-            R0 = performGraphing(L,R0,s(j)+1);
+            R0 = performGraphing(L,R0,s(j)+1,s);
     end
 end
 
@@ -101,7 +101,7 @@ function f = defineGamma(sigma, D, T, n, s)
     f = ceil(1/(2 * sigma) * (T - defineTheta(D, n, sigma, 1) + s(n)));
 end
 
-function f = performGraphing(L,R0,sn)
+function f = performGraphing(L,R0,sn,s)
     axis([0 L+2 0 5]);
     increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%应该是公式6 暂时替代
     for j = 1:L
@@ -115,7 +115,9 @@ function f = performGraphing(L,R0,sn)
     end
     gra = bar(R0);
     hold on;
-    gra = scatter(sn,0,100,'filled','d');
+    for i = 1:length(s)
+        gra = scatter(s(i),0,100,'filled','d','r');
+    end
     axis([0 L+2 0 20]);
     hold off;
     f = R0;
