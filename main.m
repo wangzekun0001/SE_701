@@ -1,13 +1,13 @@
 clear;clc;
 close all
-N = 3; %assume there are three agents right now
+N = 5; %assume there are five agents right now
 
 T = 10;  %Time
 dt = 0.01;
 n = 100001; 
 %t = linespace(0,T,n)
 
-L = 15; %整体长度
+L = 30; %整体长度
 omega = 0:L; %等分
 
 target = [5,10,15];  
@@ -39,7 +39,7 @@ J0 = 0;
 %}
 
 %s = zeros(1,N); %initial position
-s = [8,12,5];
+s = [8,22,5,17,15];
 %s depends on u(velocity), which is 1 or -1
 
 axis([0 L+2 0 5]);
@@ -103,7 +103,7 @@ end
 
 function f = performGraphing(L,R0,sn)
     axis([0 L+2 0 5]);
-    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%应该是公式6 暂时替代
+    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%应该是公式6 暂时替代
     for j = 1:L
         if j ~= sn
             R0(j) = R0(j) + increasingArr(j);
@@ -114,7 +114,7 @@ function f = performGraphing(L,R0,sn)
         end
     end
     gra = bar(R0);
-    axis([0 L+2 0 10]);
+    axis([0 L+2 0 20]);
     %hold on;
     f = R0;
 end
