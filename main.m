@@ -17,7 +17,6 @@ s_init = linspace(0,L,s_num);
 u_init = zeros(1,s_num);
 J1 = 0; 
 f = figure(1);
-
 R0=zeros(1,L+1); %measure of uncertainty at each sampling point
 R0(target+1) = 1;
 
@@ -108,8 +107,10 @@ function f = performGraphing(L,R0,sn)
     for j = 1:L
         if j ~= sn
             R0(j) = R0(j) + increasingArr(j);
-        else
+        elseif j>1 && j < L
+            R0(j-1) = 0;
             R0(j) = 0;
+            R0(j+1) = 0;
         end
     end
     gra = bar(R0);
