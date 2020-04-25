@@ -25,9 +25,16 @@ R0(target+1) = 1;
 
 J0 = 0;
 %{
-    P = s_position(omega,s,rs);
-    R = R + A0.*dt;
-    R  = max(R - B.*P*dt,0);
+    %放在循环中
+    P = s_position(omega,s,rs); %update position
+    if R = 0 or A0 <= B.*P:
+        R = 0;
+    else:
+        R = R + (A0 - B.*P).*dt;
+    %{
+    R = R + A0.*dt; 
+    R  = max(R - B.*P*dt,0);  %这个方法不知道是否可行
+    %}
     J = J + sum(R)*dt;  % cost
 %}
 
