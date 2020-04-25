@@ -114,7 +114,9 @@ function f = performGraphing(L,R0,sn)
         end
     end
     gra = bar(R0);
+    hold on;
+    gra = scatter(sn,0,'filled','d');
     axis([0 L+2 0 20]);
-    %hold on;
+    hold off;
     f = R0;
 end
