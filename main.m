@@ -10,7 +10,7 @@ n = 100001;
 L = 30; %整体长度
 omega = 0:L; %等分
 
-target = [5,10,15];  
+%target = [5,10,15];  
 
 s_num = 1;
 s_init = linspace(0,L,s_num);
@@ -18,7 +18,7 @@ u_init = zeros(1,s_num);
 J1 = 0; 
 f = figure(1);
 R0=zeros(1,L+1); %measure of uncertainty at each sampling point
-R0(target+1) = 1;
+%R0(target+1) = 1;
 
 %A0=zeros(1,L+1); %complexity increasing rate
 %A0(target+1) = 1; %这是啥
@@ -39,7 +39,8 @@ J0 = 0;
 %}
 
 %s = zeros(1,N); %initial position
-s = [8,22,5,17,15];
+%s initialization 瞎写的
+s = [8,22,5,16,29];
 %s depends on u(velocity), which is 1 or -1
 
 axis([0 L+2 0 5]);
@@ -49,6 +50,7 @@ axis([0 L+2 0 5]);
 
 
 %u等于正负1，判断依据是lambda，lambda还没写，所以用了rand来代替判定依据
+
 for i = 1:T
     for j = 1:N
         l = rand;
@@ -60,7 +62,11 @@ for i = 1:T
             pause(0.1);
             R0 = performGraphing(L,R0,s(j)+1,s);
     end
+    sumR = sum(R0);
+    J0 = J0 + sumR;
 end
+
+J0 = J0 / T   %equation(7)
 
 
 
@@ -107,7 +113,7 @@ function f = performGraphing(L,R0,sn,s)
     for j = 1:L
         if j ~= sn
             R0(j) = R0(j) + increasingArr(j);
-        elseif j>1 && j < L
+        elseif j>1 && j <= L
             R0(j-1) = 0;
             R0(j) = 0;
             R0(j+1) = 0;
