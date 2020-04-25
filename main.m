@@ -1,46 +1,41 @@
 clear;clc;
 close all
-N = 5; %assume there are five agents right now
+N = 2; %assume there are five agents right now
 
 T = 10;  %Time
 dt = 0.01;
-n = 100001; 
-%t = linespace(0,T,n)
+n = 1001; 
+t = linspace(0,T,n);
 
-L = 30; %æ•´ä½“é•¿åº¦
-omega = 0:L; %ç­‰åˆ†
+L = 30; %ÕûÌå³¤¶È
+omega = 0:L; %µÈ·Ö
 
 %target = [5,10,15];  
 
 s_num = 1;
 s_init = linspace(0,L,s_num);
 u_init = zeros(1,s_num);
-J1 = 0; 
+target = [5,10,15,20,25];
+%target = 1:30;  %ÕâĞĞÌæ»»ÉÏÒ»ĞĞ¿ÉÒÔ¿ªÊ¼¿ìÀÖ±ä¿¨
 f = figure(1);
 R0=zeros(1,L+1); %measure of uncertainty at each sampling point
-%R0(target+1) = 1;
-
-%A0=zeros(1,L+1); %complexity increasing rate
-%A0(target+1) = 1; %è¿™æ˜¯å•¥
-
+R0(target) = 1;%Ò»¿ªÊ¼ÏëÉè¼ÆµÄÖĞ¼äÓĞ¾àÀë
+R = R0;
+A0=zeros(1,L+1); %complexity increasing rate
+A0(target) = 10; 
+rs= 3;
+J1 = 0; % J of R
+J2 = 0; % J of travel Õâ¸ö»¹Ã»ÓÃ
+B= 50;
 J0 = 0;
-%{
-    %æ”¾åœ¨å¾ªç¯ä¸­
-    P = s_position(omega,s,rs); %update position
-    if R = 0 or A0 <= B.*P:
-        R = 0;
-    else:
-        R = R + (A0 - B.*P).*dt;
-    %{
-    R = R + A0.*dt; 
-    R  = max(R - B.*P*dt,0);  %è¿™ä¸ªæ–¹æ³•ä¸çŸ¥é“æ˜¯å¦å¯è¡Œ
-    %}
-    J = J + sum(R)*dt;  % cost
-%}
+
+boundary = [max(min(target)-rs,0),min(max(target)+rs,L)]; %0ÓëLÎª·ÀÖ¹¹ıĞ¡¹ı´ó,µ«»¹Ã»ÓÃÉÏ
+
+
 
 %s = zeros(1,N); %initial position
-%s initialization çå†™çš„
-s = [8,22,5,16,29];
+%s initialization Ï¹Ğ´µÄ
+s = [8,16];
 %s depends on u(velocity), which is 1 or -1
 
 axis([0 L+2 0 5]);
@@ -49,9 +44,15 @@ axis([0 L+2 0 5]);
 %hold on;
 
 
-%uç­‰äºæ­£è´Ÿ1ï¼Œåˆ¤æ–­ä¾æ®æ˜¯lambdaï¼Œlambdaè¿˜æ²¡å†™ï¼Œæ‰€ä»¥ç”¨äº†randæ¥ä»£æ›¿åˆ¤å®šä¾æ®
+%uµÈÓÚÕı¸º1£¬ÅĞ¶ÏÒÀ¾İÊÇlambda£¬lambda»¹Ã»Ğ´£¬ËùÒÔÓÃÁËrandÀ´´úÌæÅĞ¶¨ÒÀ¾İ
 
-for i = 1:T
+for i = t
+    P = s_position(omega,s,rs);
+    R = R + A0.*dt; 
+    R  = max(R - B.*P*dt,0);
+    J1 = J1 + sum(R)*dt;
+    visualization(f,s,rs,R,J1,L,i+dt)
+    
     for j = 1:N
         l = rand;
         if l > 0.5 && s(j) < L
@@ -59,11 +60,12 @@ for i = 1:T
         elseif l < 0.5 && s(j) > 0
             s(j) = s(j) - 1;
         end
-            pause(0.1);
-            R0 = performGraphing(L,R0,s(j)+1,s);
+            %pause(0.1);
+            %R0 = performGraphing(L,R0,s(j)+1,s);
     end
     sumR = sum(R0);
     J0 = J0 + sumR;
+
 end
 
 J0 = J0 / T   %equation(7)
@@ -109,7 +111,7 @@ end
 
 function f = performGraphing(L,R0,sn,s)
     axis([0 L+2 0 5]);
-    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%åº”è¯¥æ˜¯å…¬å¼6 æš‚æ—¶æ›¿ä»£
+    increasingArr = [0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3,0.1,0.2,0.3,0.2,0.3];%Ó¦¸ÃÊÇ¹«Ê½6 ÔİÊ±Ìæ´ú
     for j = 1:L
         if j ~= sn
             R0(j) = R0(j) + increasingArr(j);

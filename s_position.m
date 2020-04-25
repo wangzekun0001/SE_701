@@ -1,8 +1,8 @@
-function P =  s_position(X,s,r) %x,snï¼Œrn, æ¥è‡ªequation(4)
+function P =  s_position(X,s,r) %x,sn£¬rn, À´×Ôequation(4)
 p = zeros(length(s),length(X)); 
 
 for j = 1:length(s)
-    p(j,:) = max(1-abs(X-s(j))/r,0); %ç›®æ ‡æ¯ä¸ªä½ç½®çš„
+    p(j,:) = max(1-abs(X-s(j))/r,0); %Ä¿±êÃ¿¸öÎ»ÖÃµÄ
 end
 
 P = 1 - prod(1-p,1);

@@ -1,13 +1,21 @@
-function visualization(f,s,J)
+function visualization(f,s,rs,R,J,L,t)
 %ø… ”ªØ
 clf(f);
 axis off;
+axes('xcolor',get(f,'color'),'xtick',[])
 axes('ycolor',get(f,'color'),'ytick',[])
 hold on;
-color = ['b','g','m','c','y',[0.2417,0.4039,0.0965],[0.1320,0.9421,0.9561]];
+color = ['b','g','m','c','y','r','k'];
 for j = 1: numel(s)
-    plot(s(j),0, strcat('.',color(j)),'MarkerSize',69);
-    %plot([s(j)-rs,s(j)+rs],[0,0],color(j),'linewidth',5);
+    plot(s(j),0, strcat('.',color(j)),'MarkerSize',30);
+    plot([s(j)-rs,s(j)+rs],[0,0],color(j),'linewidth',3);
 end
+
+R_real = bar(R(2:end),'r');
+set(gca,'Xlim',[0,L],'XTick',0:5:L)
+set(gca,'Ylim',[0,30],'YTick',0:5:30)
+text (1,25,['t = ' num2str(t,'%0.2f\n')])
+text (1,23,['sum of R = ' num2str(sum(R),'%0.2f\n')])
+text (1,21,['J = ' num2str(J/t,'%0.2f\n')])
 hold off;
 drawnow
